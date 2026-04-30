@@ -93,17 +93,17 @@ param
 
 $adtSession = @{
     # App variables.
-    AppVendor = ''
-    AppName = ''
-    AppVersion = ''
-    AppArch = ''
-    AppLang = ''
+    AppVendor = 'Ambir'
+    AppName = 'Ambir Scanner Drivers'
+    AppVersion = 'PS667'
+    AppArch = 'x64'
+    AppLang = 'en-us'
     AppRevision = ''
     AppSuccessExitCodes = @(0)
     AppRebootExitCodes = @(1641, 3010)
     AppScriptVersion = '1.0.0'
-    AppScriptDate = 'YYYY-M-D'
-    AppScriptAuthor = ''
+    AppScriptDate = '04/30/2026'
+    AppScriptAuthor = 'Will Jarvill'
 
     # Install Titles (Only set here to override defaults set by the toolkit).
     InstallName = ''
@@ -152,7 +152,8 @@ function Install-ADTDeployment
     }
 
     ## <Perform Installation tasks here>
-
+    Start-ADTMsiProcess -Action 'Install' -FilePath 'PS667_v4.0.10_TWAIN.msi' -ArgumentList '/qn'
+    Start-ADTMsiProcess -Action 'Install' -FilePath 'PS667_v4.0.10_LLD64bit.msi' -ArgumentList '/qn'
 
     ##================================================
     ## MARK: Post-Install
@@ -160,7 +161,7 @@ function Install-ADTDeployment
     $adtSession.InstallPhase = "Post-$($adtSession.DeploymentType)"
 
     ## <Perform Post-Installation tasks here>
-
+    Start-ADTMsiProcess -Action 'Install' -FilePath 'AmbirScan_8.0.33.0.msi' -ArgumentList '/qn'
     ## Display a message at the end of the install.
     #if (!$adtSession.UseDefaultMsi)
     #{
@@ -201,7 +202,8 @@ function Uninstall-ADTDeployment
     }
 
     ## <Perform Uninstallation tasks here>
-
+    Start-ADTMsiProcess -Action 'Uninstall' -FilePath 'PS667_v4.0.10_TWAIN.msi' -ArgumentList '/qn'
+    Start-ADTMsiProcess -Action 'Uninstall' -FilePath 'PS667_v4.0.10_LLD64bit.msi' -ArgumentList '/qn'
 
     ##================================================
     ## MARK: Post-Uninstallation
@@ -209,7 +211,7 @@ function Uninstall-ADTDeployment
     $adtSession.InstallPhase = "Post-$($adtSession.DeploymentType)"
 
     ## <Perform Post-Uninstallation tasks here>
-    
+    Start-ADTMsiProcess -Action 'Uninstall' -FilePath 'AmbirScan_8.0.33.0.msi' -ArgumentList '/qn /norestart'
 
 }
 
